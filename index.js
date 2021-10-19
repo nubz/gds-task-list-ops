@@ -85,9 +85,6 @@ const taskStatus = (data, task) => {
   return STATUS.TO_DO
 }
 
-const triageComplete = (data, schema) =>
-  taskStatus(data, schema.checks) === STATUS.COMPLETE || taskStatus(data, schema.multipleDisposals) === STATUS.COMPLETE
-
 const taskStart = (data, task) => taskStatus(data, task) === STATUS.COMPLETE
   ? task.cyaPath || task.path + 'check-your-answers' : nextQuestion(data, task)
 
@@ -109,6 +106,5 @@ module.exports = {
   returnTaskStatus: taskListStatus,
   taskStart: taskStart,
   nextQuestion: nextQuestion,
-  includedSections: includedSections,
-  triageComplete: triageComplete
+  includedSections: includedSections
 }
