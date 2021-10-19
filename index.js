@@ -90,14 +90,13 @@ const taskStart = (data, task) => taskStatus(data, task) === STATUS.COMPLETE
 
 const nextQuestion = (data, task) => {
   const pages = includedPages(data, task)
-  const journey = data['multiple-disposals'] === 'yes' ? 'multiple' : (data.assetType === 'Mixed use' ? 'mixedUseSingle' : 'return')
   const invalidPages = pages.filter(next => !validation.isValidPage(data, next))
   if (!invalidPages.length) {
     return task.path + 'check-your-answers'
   }
   const page = invalidPages[0]
   const path = page.customPath || task.path
-  return path + page.title + '?journey=' + journey
+  return path + page.title
 }
 
 module.exports = {
