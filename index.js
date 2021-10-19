@@ -101,6 +101,10 @@ const nextQuestion = (data, task) => {
 
 module.exports = {
   STATUS: STATUS,
+  isComplete: isComplete,
+  includedPages: includedPages,
+  isInProgress: isInProgress,
+  cyaCanStart: cyaCanStart,
   taskStatus: taskStatus,
   returnTaskStatus: taskListStatus,
   taskStart: taskStart,
