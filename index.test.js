@@ -68,7 +68,8 @@ describe('task list status', () => {
       includeIf: data => TaskListOps.taskStatus(data, mockSchema.secondTask) === TaskListOps.STATUS.COMPLETE,
       path: '/',
       summaryPath: './includes/summaries/thirdTask.html',
-      title: 'Third task (can only start if second task complete)',
+      title: 'Third task',
+      customTitle: data => data['has-car'] === 'yes' ? 'About your car' : 'About buying cars',
       pages: {
         'what-is-a-good-car-price': {
           fields: {
@@ -185,7 +186,7 @@ describe('task list status', () => {
     const thirdTaskStatus = {
       status: TaskListOps.STATUS.COMPLETE,
       link: '/check-your-answers',
-      title: mockSchema.thirdTask.title
+      title: mockSchema.thirdTask.customTitle(data)
     }
     expect(TaskListOps.returnTaskStatus(data, mockSchema).firstTask).toEqual(firstTaskStatus)
     expect(TaskListOps.returnTaskStatus(data, mockSchema).secondTask).toEqual(secondTaskStatus)
