@@ -81,6 +81,12 @@ describe('task list status', () => {
           }
         }
       }
+    },
+    impossibleTask: {
+      includeIf: data => false,
+      summaryPath: '',
+      path: '/',
+      pages: {}
     }
   }
 
@@ -162,7 +168,7 @@ describe('task list status', () => {
   })
 
   test('cyaCanStart returns false when all required tasks are not complete', () => {
-    const data = {'has-car': 'no'}
+    const data = {'has-car': 'yes'}
     expect(TaskListOps.cyaCanStart(data, mockSchema)).toBe(false)
   })
 
@@ -193,6 +199,22 @@ describe('task list status', () => {
     expect(TaskListOps.returnTaskStatus(data, mockSchema).thirdTask).toEqual(thirdTaskStatus)
   })
 
+  test('taskListStatus returns cya status as cannot start when tasks are incomplete', () => {
+    const data = {'full-name': 'John Doe', 'date-of-birth': '1990-01-01'}
+    expect(TaskListOps.returnTaskStatus(data, mockSchema).cya.status).toEqual(TaskListOps.STATUS.CANNOT_START)
+  })
+
+  test('taskListStatus returns cya status as to do when tasks are all complete', () => {
+    const data = {'full-name': 'John Doe', 'date-of-birth': '1990-01-01', 'has-car': 'no', 'good-car-price': '100'}
+    expect(TaskListOps.returnTaskStatus(data, mockSchema).cya.status).toEqual(TaskListOps.STATUS.TO_DO)
+  })
+
+  test('nextQuestion returns CYA link when all pages are complete in a task', () => {
+    const data = {'full-name': 'John Doe', 'date-of-birth': '1990-01-01'}
+    const expectedLink = '/check-your-answers'
+    expect(TaskListOps.nextQuestion(data, mockSchema.firstTask)).toBe(expectedLink)
+  })
+
   test('taskStart provides route to first page that needs completing in a task', () => {
     const data = {'full-name': 'John Doe'}
     const expectedStartLink = '/enter-date-of-birth'
@@ -206,9 +228,23 @@ describe('task list status', () => {
   })
 
   test('includedSections includes tasks that can be shown on a master cya page', () => {
-    expect(TaskListOps.includedSections({'has-car': 'no'}, mockSchema)).toStrictEqual({
-      ...mockSchema
-    })
+    const expectedTasks = { ...mockSchema }
+    delete expectedTasks.impossibleTask
+    expect(TaskListOps.includedSections({'has-car': 'no'}, mockSchema)).toStrictEqual(expectedTasks)
+  })
+
+  test('includedSections does not include tasks in excludedKeys', () => {
+    const expectedTasks = { firstTask: { ...mockSchema.firstTask } }
+    expect(TaskListOps.includedSections({'has-car': 'no'}, mockSchema, ['secondTask', 'thirdTask'])).toStrictEqual(expectedTasks)
+  })
+
+  test('getTaskTitle returns custom title if present', () => {
+    const expectedTitle = 'About your car'
+    expect(TaskListOps.getTaskTitle({'has-car': 'yes'}, mockSchema.thirdTask)).toBe(expectedTitle)
+  })
+
+  test('getTaskTitle returns undefined if no title', () => {
+    expect(TaskListOps.getTaskTitle({}, mockSchema.impossibleTask)).toBe('undefined')
   })
 
 })

@@ -109,5 +109,6 @@ module.exports = {
   returnTaskStatus: taskListStatus,
   taskStart: taskStart,
   nextQuestion: nextQuestion,
-  includedSections: includedSections
+  includedSections: includedSections,
+  getTaskTitle: getTaskTitle
 }
