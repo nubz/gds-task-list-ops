@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --coverage=true"
   },
-  "dependencies": {
-    "@nubz/gds-validation": "^0.4.1"
+  "peerDependencies": {
+    "@nubz/gds-validation": "^2.4.0"
   },
   "devDependencies": {
     "jest": "^27.2.4"
