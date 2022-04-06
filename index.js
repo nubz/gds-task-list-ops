@@ -35,10 +35,12 @@ const isInProgress = (data, pages) =>
 const cannotStart = (data, task) =>
   typeof task.includeIf === 'function' && !task.includeIf(data)
 
-const cyaCanStart = (data, schema) =>
-  Object.keys(schema).every(task => taskStatus(data, schema[task]) === STATUS.COMPLETE ||
-    (typeof schema[task].includeIf === 'function' && !schema[task].includeIf(data))
-  )
+const taskListComplete = (data, schema) =>
+    Object.keys(schema).every(task => taskStatus(data, schema[task]) === STATUS.COMPLETE ||
+        (typeof schema[task].includeIf === 'function' && !schema[task].includeIf(data))
+    )
+
+const cyaCanStart = taskListComplete // cyaCanStart is deprecated
 
 const getTaskTitle = (data, schemaObj) => {
   if (typeof schemaObj.customTitle === 'function') {
@@ -101,14 +103,15 @@ const nextQuestion = (data, task) => {
 
 module.exports = {
   STATUS: STATUS,
-  isComplete: isComplete,
-  includedPages: includedPages,
-  isInProgress: isInProgress,
-  cyaCanStart: cyaCanStart,
-  taskStatus: taskStatus,
+  isComplete,
+  includedPages,
+  isInProgress,
+  cyaCanStart,
+  taskStatus,
   returnTaskStatus: taskListStatus,
-  taskStart: taskStart,
-  nextQuestion: nextQuestion,
-  includedSections: includedSections,
-  getTaskTitle: getTaskTitle
+  taskStart,
+  nextQuestion,
+  includedSections,
+  getTaskTitle,
+  taskListComplete
 }

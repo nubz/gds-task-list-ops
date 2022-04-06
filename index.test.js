@@ -167,14 +167,14 @@ describe('task list status', () => {
     expect(TaskListOps.taskStatus(data, mockSchema.thirdTask)).toBe(expectedStatus)
   })
 
-  test('cyaCanStart returns false when all required tasks are not complete', () => {
+  test('taskListComplete returns false when all required tasks are not complete', () => {
     const data = {'has-car': 'yes'}
-    expect(TaskListOps.cyaCanStart(data, mockSchema)).toBe(false)
+    expect(TaskListOps.taskListComplete(data, mockSchema)).toBe(false)
   })
 
-  test('cyaCanStart returns true when all required tasks are complete', () => {
+  test('taskListComplete returns true when all required tasks are complete', () => {
     const data = {'full-name': 'John Doe', 'date-of-birth': '1990-01-01', 'has-car': 'no', 'good-car-price': '100'}
-    expect(TaskListOps.cyaCanStart(data, mockSchema)).toBe(true)
+    expect(TaskListOps.taskListComplete(data, mockSchema)).toBe(true)
   })
 
   test('taskListStatus returns status objects for each task', () => {
