@@ -1,6 +1,6 @@
 {
   "name": "@nubz/gds-task-list-ops",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Control GDS task list states for prototypes and other nodejs apps",
   "main": "index.js",
   "scripts": {
