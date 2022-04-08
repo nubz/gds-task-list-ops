@@ -19,8 +19,8 @@ Examples of simple and complex use cases can be seen on [https://prototype-strat
 
 ### Schema description
 
-The PageModel is as required by the validation package. There is a hard dependency on the [@nubz/gds-validation](https://www.npmjs.com/package/@nubz/gds-validation) package as this is
-what is used to tell us whether pages are valid. It is included in this package as a peer dependency.
+The PageModel definition is as required in the [@nubz/gds-validation](https://www.npmjs.com/package/@nubz/gds-validation) package as this is
+what is used to tell us whether pages are valid. It is added to this package as a peer dependency.
 
 ```typescript
 // using TypeScript interfaces as documentation
@@ -41,4 +41,21 @@ interface PageMap {
   [key: String]: PageModel
 }
 
+```
+## Responses
+`returnTaskList` accepts the `schema` and the data set to compare against - usually `req.session.data`
+The response is of the following type
+
+```typescript
+interface TaskListStatusMap {
+    [key: TaskName]: TaskListStatus
+}
+
+interface TaskListStatus {
+    status: Status
+    link: String // a uri to the first page that is invalid within the task
+    title: String // the value of the `title` property for this task in your schema
+}
+type TaskName = String // name/key of task in your schema model
+type Status = 'complete' | 'in-progress' | 'to-do' | 'cannot-start'
 ```
