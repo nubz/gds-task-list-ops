@@ -4,6 +4,7 @@
   "description": "Control GDS task list states for prototypes and other nodejs apps",
   "main": "index.js",
   "scripts": {
+    "ci": "npm ci && npm install @nubz/gds-task-list-ops",
     "test": "jest --coverage=true"
   },
   "peerDependencies": {
